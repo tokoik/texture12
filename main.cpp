@@ -1,37 +1,37 @@
 ﻿#if defined(__APPLE__)
-#  define GL_SILENCE_DEPRECATION
-#  include <GLUT/glut.h>
+#define GL_SILENCE_DEPRECATION
+#include <GLUT/glut.h>
 #else
-#  if defined(_WIN32)
-//#    pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
-#    define _USE_MATH_DEFINES
-#    define _CRT_SECURE_NO_WARNINGS
-#  endif
-#  include <GL/glut.h>
+#if defined(_WIN32)
+// #    pragma comment(linker, "/subsystem:\"windows\"
+// /entry:\"mainCRTStartup\"")
+#define _USE_MATH_DEFINES
+#define _CRT_SECURE_NO_WARNINGS
 #endif
+#include <GL/glut.h>
+#endif
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 /*
 ** 光源
 */
-static const GLfloat lightpos[] = { 0.0f, 0.0f, 1.0f, 0.0f }; /* 位置　　　 */
-static const GLfloat lightcol[] = { 1.0f, 1.0f, 1.0f, 1.0f }; /* 直接光強度 */
-static const GLfloat lightamb[] = { 0.1f, 0.1f, 0.1f, 1.0f }; /* 環境光強度 */
+static const GLfloat lightpos[] = {0.0f, 0.0f, 1.0f, 0.0f}; /* 位置　　　 */
+static const GLfloat lightcol[] = {1.0f, 1.0f, 1.0f, 1.0f}; /* 直接光強度 */
+static const GLfloat lightamb[] = {0.1f, 0.1f, 0.1f, 1.0f}; /* 環境光強度 */
 
 /*
 ** テクスチャ
 */
-#define TEXWIDTH  1024                              /* テクスチャの幅　　　 */
-#define TEXHEIGHT 128                               /* テクスチャの高さ　　 */
-static const char texture_file[] = "dice.raw";      /* テクスチャファイル名 */
+#define TEXWIDTH 1024                          /* テクスチャの幅　　　 */
+#define TEXHEIGHT 128                          /* テクスチャの高さ　　 */
+static const char texture_file[] = "dice.raw"; /* テクスチャファイル名 */
 
 /*
 ** 初期化
 */
-static void init(void)
-{
+static void init(void) {
   /* テクスチャ画像はワード単位に詰め込まれている */
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
@@ -51,18 +51,18 @@ static void init(void)
 #endif
 
   /* テクスチャの割り当て */
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TEXWIDTH, TEXHEIGHT, 0,
-    GL_RGBA, GL_UNSIGNED_BYTE, texture);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TEXWIDTH, TEXHEIGHT, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, nullptr);
 
   for (int i = 0; i < 6; ++i) {
     /* テクスチャファイル名 */
     static const char *textures[] = {
-      "room2ny.raw", /* 下 */
-      "room2nz.raw", /* 裏 */
-      "room2px.raw", /* 右 */
-      "room2pz.raw", /* 前 */
-      "room2nx.raw", /* 左 */
-      "room2py.raw", /* 上 */
+        "room2ny.raw", /* 下 */
+        "room2nz.raw", /* 裏 */
+        "room2px.raw", /* 右 */
+        "room2pz.raw", /* 前 */
+        "room2nx.raw", /* 左 */
+        "room2py.raw", /* 上 */
     };
 
     if ((fp = fopen(textures[i], "rb")) != NULL) {
@@ -72,11 +72,11 @@ static void init(void)
       fclose(fp);
 
       /* テクスチャの置き換え */
-      glTexSubImage2D(GL_TEXTURE_2D, 0, i * 128, 0, 128, 128,
-        GL_RGBA, GL_UNSIGNED_BYTE, texture);
+      glTexSubImage2D(GL_TEXTURE_2D, 0, i * 128, 0, 128, 128, GL_RGBA,
+                      GL_UNSIGNED_BYTE, texture);
     }
   }
-  
+
   /* テクスチャを拡大・縮小する方法の指定 */
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -114,9 +114,8 @@ static void init(void)
 /*
 ** シーンの描画
 */
-static void scene(void)
-{
-  static const GLfloat color[] = { 1.0, 1.0, 1.0, 1.0 };  /* 材質 (色) */
+static void scene(void) {
+  static const GLfloat color[] = {1.0, 1.0, 1.0, 1.0}; /* 材質 (色) */
 
   /* 材質の設定 */
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
@@ -138,8 +137,7 @@ static void scene(void)
 /* トラックボール処理用関数の宣言 */
 #include "trackball.h"
 
-static void display(void)
-{
+static void display(void) {
   /* モデルビュー変換行列の設定 */
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -166,8 +164,7 @@ static void display(void)
   glutSwapBuffers();
 }
 
-static void resize(int w, int h)
-{
+static void resize(int w, int h) {
   /* トラックボールする範囲 */
   trackballRegion(w, h);
 
@@ -182,14 +179,12 @@ static void resize(int w, int h)
   gluPerspective(60.0, (double)w / (double)h, 1.0, 100.0);
 }
 
-static void idle(void)
-{
+static void idle(void) {
   /* 画面の描き替え */
   glutPostRedisplay();
 }
 
-static void mouse(int button, int state, int x, int y)
-{
+static void mouse(int button, int state, int x, int y) {
   switch (button) {
   case GLUT_LEFT_BUTTON:
     switch (state) {
@@ -207,19 +202,17 @@ static void mouse(int button, int state, int x, int y)
       break;
     }
     break;
-    default:
-      break;
+  default:
+    break;
   }
 }
 
-static void motion(int x, int y)
-{
+static void motion(int x, int y) {
   /* トラックボール移動 */
   trackballMotion(x, y);
 }
 
-static void keyboard(unsigned char key, int x, int y)
-{
+static void keyboard(unsigned char key, int x, int y) {
   switch (key) {
   case 'q':
   case 'Q':
@@ -234,8 +227,7 @@ static void keyboard(unsigned char key, int x, int y)
 /*
 ** メインプログラム
 */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
   glutCreateWindow(argv[0]);
