@@ -148,4 +148,4 @@ main.cpp で構成したテクスチャは、6枚の画像が横に結合され�
     `display()` 関数内では、`GL_MODELVIEW` モードでトラックボール処理の回転行列 (`trackballRotation()`) を現在のモデルビュー行列に掛け合わせています。
     視点が原点にある状態で、周囲の大きな箱全体をマウスドラッグで回転させることで、結果的に「部屋の中心で視点を回転させて、あたりを見回す」という視覚効果を実現しています。
 
-![箱の中心から周囲を見回す]({{ site.baseurl }}/assets/images/texture12.gif)
+![箱の中心から周囲を見回す](https://tokoik.github.io/blog/assets/images/texture12.gif)
