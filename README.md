@@ -114,11 +114,11 @@ cd build
 
 3. **カリングの無効化:**
 
-    通常の描画では、ポリゴンの裏側（視点から見えない面）は描画を省略するカリング処理が行われますが、今回は箱の「内側」を見るため、`init()` 関数内で `glDisable(GL_CULL_FACE)` を呼び出し、裏面も描画されるように設定しています。
+    通常の描画では、ポリゴンの裏側（視点から見えない面）は描画を省略するカリング処理が行われますが、今回は箱の「内側」を見るため、`init()` 関数内で `glDisable(` `GL_CULL_FACE` `)` を呼び出し、裏面も描画されるように設定しています。
 
 ### 4.2 面ごとのテクスチャ座標の割り当て (box.cpp 内の box() 関数)
 
-実際に部屋（立方体）を描画している部分です。[`glBegin(GL_QUADS)`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glBegin.xml) から [`glEnd()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glEnd.xml) の間で、6つの面（四角形）を描画しています。[`glVertex3dv()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glVertex.xml)（頂点座標の指定）を呼び出す**直前**に、[`glTexCoord2dv()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glTexCoord.xml) を使ってテクスチャ座標を指定しています。
+実際に部屋（立方体）を描画している部分です。[`glBegin(` `GL_QUADS` `)`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glBegin.xml) から [`glEnd()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glEnd.xml) の間で、6つの面（四角形）を描画しています。[`glVertex3dv()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glVertex.xml)（頂点座標の指定）を呼び出す**直前**に、[`glTexCoord2dv()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glTexCoord.xml) を使ってテクスチャ座標を指定しています。
 
 main.cpp で構成したテクスチャは、6枚の画像が横に結合された状態になっています。そのため、各面に異なるテクスチャを表示させるために、面ごとに 1/8（0.125）ずつの幅でテクスチャ座標を切り分けて割り当てています。
 
