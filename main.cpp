@@ -15,6 +15,12 @@
 #include <stdlib.h>
 #include <math.h>
 
+/* トラックボール処理用関数の宣言 */
+#include "trackball.h"
+
+/* 箱を描く関数の宣言 */
+#include "box.h"
+
 /*
 ** 光源
 */
@@ -56,6 +62,23 @@ static void init(void)
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TEXWIDTH, TEXHEIGHT, 0,
     GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
+  /* テクスチャを拡大・縮小する方法の指定 */
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+  /* テクスチャの繰り返し方法の指定 */
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+  /* テクスチャ環境 */
+  glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+#if 0
+  /* 混合する色の設定 */
+  static const GLfloat blend[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+  glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, blend);
+#endif
+
   for (int i = 0; i < 6; ++i) {
     /* テクスチャファイル名 */
     static const char *textures[] = {
@@ -79,23 +102,6 @@ static void init(void)
     }
   }
 
-  /* テクスチャを拡大・縮小する方法の指定 */
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-  /* テクスチャの繰り返し方法の指定 */
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-  /* テクスチャ環境 */
-  glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-#if 0
-  /* 混合する色の設定 */
-  static const GLfloat blend[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-  glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, blend);
-#endif
-
   /* 初期設定 */
   glClearColor(0.3f, 0.3f, 1.0f, 0.0f);
   glEnable(GL_DEPTH_TEST);
@@ -109,9 +115,6 @@ static void init(void)
   glLightfv(GL_LIGHT0, GL_SPECULAR, lightcol);
   glLightfv(GL_LIGHT0, GL_AMBIENT, lightamb);
 }
-
-/* 箱を描く関数の宣言 */
-#include "box.h"
 
 /*
 ** シーンの描画
@@ -136,9 +139,6 @@ static void scene(void)
 /****************************
 ** GLUT のコールバック関数 **
 ****************************/
-
-/* トラックボール処理用関数の宣言 */
-#include "trackball.h"
 
 static void display(void)
 {
