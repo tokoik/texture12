@@ -110,7 +110,7 @@ cd build
 2. **画像の読み込みとテクスチャの部分的な置き換え:**
 
     続いて、部屋の各面（壁、天井、床など）に貼り付ける 6 つの画像ファイル (`room2ny.raw` など) を順番に読み込みます。各画像は 128×128 ピクセルのサイズです。
-    読み込んだ画像は [`glTexSubImage2D()`](https://registry.khronos.org/OpenGL-Refpages/gl4/html/glTexSubImage2D.xhtml) を使って、先に確保した 1024×128 のテクスチャ領域の一部として転送します。このとき、X軸方向のオフセット（`xoffset`）を `i * 128` とすることで、6枚の画像を横に並べて1つの大きなテクスチャを構成しています。これにより、あらかじめ結合された画像を用意しなくても、プログラム上で動的にテクスチャをまとめることができます。
+    読み込んだ画像は [`glTexSubImage2D()`](https://registry.khronos.org/OpenGL-Refpages/gl4/html/glTexSubImage2D.xhtml) を使って、先に確保した 1024×128 のテクスチャ領域の一部として転送します。このとき、X軸方向のオフセット（`xoffset`）を `i * 128` とすることで、６枚の画像を横に並べて1つの大きなテクスチャを構成しています。これにより、あらかじめ結合された画像を用意しなくても、プログラム上で動的にテクスチャをまとめることができます。
 
 3. **カリングの無効化:**
 
@@ -120,7 +120,7 @@ cd build
 
 実際に部屋（立方体）を描画している部分です。[`glBegin(` `GL_QUADS` `)`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glBegin.xml) から [`glEnd()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glEnd.xml) の間で、6つの面（四角形）を描画しています。[`glVertex3dv()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glVertex.xml)（頂点座標の指定）を呼び出す**直前**に、[`glTexCoord2dv()`](https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glTexCoord.xml) を使ってテクスチャ座標を指定しています。
 
-main.cpp で構成したテクスチャは、6枚の画像が横に結合された状態になっています。そのため、各面に異なるテクスチャを表示させるために、面ごとに 1/8（0.125）ずつの幅でテクスチャ座標を切り分けて割り当てています。
+main.cpp で構成したテクスチャは、６枚の画像が横に結合された状態になっています。そのため、各面に異なるテクスチャを表示させるために、面ごとに 1/8（0.125）ずつの幅でテクスチャ座標を切り分けて割り当てています。
 
 ```c
   /* 頂点のテクスチャ座標 */
@@ -144,4 +144,4 @@ main.cpp で構成したテクスチャは、6枚の画像が横に結合され�
     `display()` 関数内では、`GL_MODELVIEW` モードでトラックボール処理の回転行列 (`trackballRotation()`) を現在のモデルビュー行列に掛け合わせています。
     視点が原点にある状態で、周囲の大きな箱全体をマウスドラッグで回転させることで、結果的に「部屋の中心で視点を回転させて、あたりを見回す」という視覚効果を実現しています。
 
-![箱の中心から周囲を見回す](https://tokoik.github.io/blog/assets/images/texture12.gif)
+![箱の中心から周囲を見回す](https://tokoik.github.io/blog/assets/images/texture12.webp)
